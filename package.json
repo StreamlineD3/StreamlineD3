@@ -9,10 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cluster": "^0.7.7",
     "express": "^4.15.3",
-    "net": "^1.0.2",
-    "socket.io": "^1.7.3",
-    "socket.io-redis": "^5.0.1"
+    "socket.io": "^1.7.3"
   }
 }
