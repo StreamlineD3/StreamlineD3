@@ -16,7 +16,7 @@ See our demo at [streamlined3.io](streamlined3.io)!
   
 ### Index.js
 
-NOTE: because our library uses load balancing through Node clusters on the back end to support scaling and optimal performance, it is important for you to NOT make a traditional server using Node or Express.  The functionality for an Express server is already set up for you and no worries, you can still customize it. Follow the instructions below for more info. 
+NOTE: This version of our library does not have Node Clusters implemented in case you want to use another approach. If you would like to use the version that uses load balancing through Node clusters on the back end to support scaling and optimal performance, you can find it [here](https://github.com/StreamlineD3/StreamlineD3-Redis).
      
 1. In your index.js file require our library:
 ```
@@ -27,22 +27,9 @@ const streamline = require('streamlined3');
 let myStream = new streamline(sendFiles, port#);
 ```
 
-note: please choose any port other than 6379 (as our Redis server will be running on this port)
+3. Create an array ```let myData = []``` to hold your data.  Call your API to get streaming data and push the results into your myData array.  FYI, it is a good idea to buffer this data to not overload your system.  
 
-3. Put all the code/routes/etc. you would normally want in your server file inside this function:
-```
-function sendFiles(app) {
-  app.use(express.static(path.join(__dirname, 'client')));
-
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/home-page.html'));
-  });
-}
-```
-
-4. Create an array ```let myData = []``` to hold your data.  Call your API to get streaming data and push the results into your myData array.  FYI, it is a good idea to buffer this data to not overload your system.  
-
-5. Look at your API data key/value pairs and find the data values that you want to visualize in your graph.  Put them inside a config object. (see Specific Configuration Settings for... below for what type of key/value pairs you'll need for each visualization):
+4. Look at your API data key/value pairs and find the data values that you want to visualize in your graph.  Put them inside a config object. (see Specific Configuration Settings for... below for what type of key/value pairs you'll need for each visualization):
 ```
 let config = {
   width: 500,
@@ -57,16 +44,12 @@ let config = {
   yLabel: 'how many likes someone got'
 };
 ```
-6. Invoke the StreamlineD3 ```connect``` method on the new instance you created in step 2.  For names of methods you can call, see Specific Configuration Settings for... below for each type of visualization. <br/>
+5. Invoke the StreamlineD3 ```connect``` method on the new instance you created in step 2.  For names of methods you can call, see Specific Configuration Settings for... below for each type of visualization. <br/>
 ```
 myStream.connect((socket) => {
   myStream.line(socket, myData, config);
 });
 ```
-
-### Install Redis and Start Your Servers
-
-Because sockets and Node clusters don't work well togther without additional measures taken, you must install Redis and start a Redis server. The easiest way is through HomeBrew.  Download Homebrew https://brew.sh/ and then in the terminal ```$ brew install redis```.  Once Redis is installed ```$redis-server``` to start a Redis server.  Lastly, type ```$ node index.js``` or whatever you named your js file to start the initial Node server we set up for you in our library.  Note: all these steps assume you are using a mac.  If you're using windows, these Bash commands will not work.  
 
 ### HTML
       
@@ -261,3 +244,7 @@ And voilà! You now have a working, live-updating visualization.
   ```
    <script src="https://unpkg.com/topojson-client@3"></script>
   ```
+  5. For color, add this script tag:
+  ```
+   <script src="graphs/d3-scale-chromatic.min.js"></script>
+   ```
