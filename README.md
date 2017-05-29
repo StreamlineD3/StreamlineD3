@@ -1,6 +1,6 @@
 # StreamlineD3
 Providing developers with a simple way to create live updating visualizations for their streaming data. <br>
-See our demo at [streamlined3.io](streamlined3.io)!
+See our demo at [streamlined3.io](http://streamlined3.io)!
 
 ## Features
   * Customize colors, fonts, heights, widths, and more.
